@@ -136,10 +136,13 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.27</version>
         </dependency>
+
 
     </dependencies>
 
@@ -171,6 +174,40 @@
         <finalName>vine-wears-service</finalName>
     </build>
 
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <property>
+                    <name>environment</name>
+                    <value>dev</value>
+                </property>
+            </activation>
+            <dependencies>
+<!--                <dependency>-->
+<!--                    <groupId>mysql</groupId>-->
+<!--                    <artifactId>mysql-connector-java</artifactId>-->
+<!--                    <version>8.0.27</version>-->
+<!--                </dependency>-->
+            </dependencies>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <activation>
+                <property>
+                    <name>environment</name>
+                    <value>prod</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                    <version>8.0.27</version>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 
     <repositories>
         <repository>

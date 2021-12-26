@@ -1,0 +1,58 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: vinewears
+  labels:
+    name: vinewears
+spec:
+  ports:
+    - nodePort: 30163 
+      port: 8080      
+      targetPort: 8080  
+      protocol: TCP
+  selector:           
+    app: vinewears
+  type: NodePort       
+
+---
+apiVersion: apps/v1 
+kind: Deployment    
+metadata:              
+  name: vinewears
+spec:                
+  selector:         
+    matchLabels:
+      app: vinewears
+  replicas: 1
+  template:
+    metadata:
+      labels:        
+        app: vinewears
+    spec:
+      containers:
+        - name: vinewears
+          image: divineobi13/vine-wears-service.jar:latest
+          ports:
+            - containerPort: 8080                
+          env:   # Setting Enviornmental Variables
+          - name: DB_HOST   # Setting Database host address from configMap
+            valueFrom: 
+              configMapKeyRef:
+                name: db-conf  # name of configMap
+                key: host
+          - name: DB_NAME  # Setting Database name from configMap
+            valueFrom:
+              configMapKeyRef:
+                name: db-conf 
+                key: name
+          - name: DB_USERNAME  # Setting Database username from Secret
+            valueFrom:
+              secretKeyRef:
+                name: db-credentials # Secret Name
+                key: username
+          - name: DB_PASSWORD # Setting Database password from Secret
+            valueFrom:
+              secretKeyRef:
+                name: db-credentials
+                key: password     
+        

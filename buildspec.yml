@@ -12,8 +12,3 @@ artifacts:
   files:
     - target/vine-wears-service.jar
   discard-paths: yes
-
-  git filter-branch \
-  --subdirectory-filter vinewears \
-  --tag-name-filter cat \
-  -- --all
